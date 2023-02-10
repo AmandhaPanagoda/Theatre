@@ -8,13 +8,13 @@ public class Theatre {
         int[] row2 = new int[16];
         int[] row3 = new int[20];
 
-        for(int i=0; i<=12; i++) {
+        for(int i=0; i<12; i++) {
             row1[i] = 0;
         }
-        for(int i=0; i<=16; i++) {
+        for(int i=0; i<16; i++) {
             row2[i] = 0;
         }
-        for(int i=0; i<=20; i++) {
+        for(int i=0; i<20; i++) {
             row3[i] = 0;
         }
 
