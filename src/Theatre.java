@@ -4,9 +4,9 @@ public class Theatre {
     public static void main(String[] args) {
         System.out.println("Welcome to the New Theatre");
 
-        int row1[] = new int[12];
-        int row2[] = new int[16];
-        int row3[] = new int[20];
+        int[] row1 = new int[12];
+        int[] row2 = new int[16];
+        int[] row3 = new int[20];
 
         for(int i=0; i<=12; i++) {
             row1[i] = 0;
@@ -43,7 +43,7 @@ public class Theatre {
         System.out.println("Option 0 entered. Exiting program...");
     }
 
-    private static void buy_ticket(int row1[], int row2[], int row3[]) {
+    private static void buy_ticket(int[] row1, int[] row2, int[] row3) {
         //option number 1
         Scanner input = new Scanner(System.in);
         int rowNumber, seatNumber;
