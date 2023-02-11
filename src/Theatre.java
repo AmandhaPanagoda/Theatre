@@ -47,9 +47,7 @@ public class Theatre {
             System.out.println("Enter option:");
             menuOption = input.nextInt();
         }
-        if(menuOption == 0) {
-            System.out.println("Option 0 entered. Exiting program...");
-        }
+        System.out.println("Option 0 entered. Exiting program...");
     }
 
     private static void buy_ticket(int[] row1, int[] row2, int[] row3) {
@@ -90,7 +88,7 @@ public class Theatre {
                 } else {
                     System.out.println("Invalid seat number. Please enter a seat number between 1-16");
                 }
-            } else if(rowNumber == 3) {
+            } else {
                 if(seatNumber >= 1 && seatNumber <=20) {
                     if(row3[seatNumber-1] == 0) {
                         row3[seatNumber-1] = 1;
@@ -106,6 +104,8 @@ public class Theatre {
         }
     }
     private static void print_seating_area(int[] row1, int[] row2, int[] row3) {
+        System.out.println("       *********\n       * STAGE *\n       *********");
+        System.out.print("    ");
         for(int n=0; n < row1.length; n++){
             if(n==6){
                 System.out.print("  ");
@@ -117,6 +117,7 @@ public class Theatre {
             }
         }
         System.out.println();
+        System.out.print("  ");
         for(int n=0; n < row2.length; n++){
             if(n==8){
                 System.out.print("  ");

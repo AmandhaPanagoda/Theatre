@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="63af77ed-233d-4dc4-a5be-d24e1d8d20ef" name="Changes" comment="Array out of bounds exception resolved">
+    <list default="true" id="63af77ed-233d-4dc4-a5be-d24e1d8d20ef" name="Changes" comment="Added task of printing seating area">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Theatre.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Theatre.java" afterDir="false" />
     </list>
@@ -73,7 +73,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676011027094</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Added task of printing seating area">
+      <created>1676132810365</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1676132810365</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -91,7 +98,8 @@
     <MESSAGE value="first commit" />
     <MESSAGE value="C type arrays edited to java type" />
     <MESSAGE value="Array out of bounds exception resolved" />
-    <option name="LAST_COMMIT_MESSAGE" value="Array out of bounds exception resolved" />
+    <MESSAGE value="Added task of printing seating area" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added task of printing seating area" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
