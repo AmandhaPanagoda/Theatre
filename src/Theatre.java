@@ -35,7 +35,13 @@ public class Theatre {
                     print_seating_area(row1, row2, row3);
                     break;
                 case 3:
+                    //cancel_ticket method
+                    cancel_ticket(row1, row2, row3);
+                    break;
                 case 4:
+                    //show_available method
+                    show_available(row1, row2, row3);
+                    break;
                 case 5:
                 case 6:
                 case 7:
@@ -51,7 +57,6 @@ public class Theatre {
     }
 
     private static void buy_ticket(int[] row1, int[] row2, int[] row3) {
-        //option number 1
         Scanner input = new Scanner(System.in);
         int rowNumber, seatNumber;
         while(true) {
@@ -61,7 +66,7 @@ public class Theatre {
                 System.out.println("Invalid row number. Please enter a row number between 1-3");
                 continue;
             }
-            System.out.println("Enter seat number: "); // ask for seat even when row wrong then say invalid
+            System.out.println("Enter seat number: ");
             seatNumber = input.nextInt();
 
             if(rowNumber == 1) {
@@ -110,11 +115,7 @@ public class Theatre {
             if(n==6){
                 System.out.print("  ");
             }
-            if(row1[n]==1){
-                System.out.print("X");
-            } else {
-                System.out.print("O");
-            }
+            System.out.print(row1[n]==1 ? "X" : "O");
         }
         System.out.println();
         System.out.print("  ");
@@ -122,21 +123,86 @@ public class Theatre {
             if(n==8){
                 System.out.print("  ");
             }
-            if(row2[n]==1){
-                System.out.print("X");
-            } else {
-                System.out.print("O");
-            }
+            System.out.print(row2[n]==1 ? "X" : "O");
         }
         System.out.println();
         for(int n=0; n < row3.length; n++){
             if(n==10){
                 System.out.print("  ");
             }
-            if(row3[n]==1){
-                System.out.print("X");
+            System.out.print(row3[n]==1 ? "X" : "O");
+        }
+        System.out.println();
+    }
+    private static void cancel_ticket(int[] row1, int[] row2, int[] row3) {
+        Scanner input = new Scanner(System.in);
+        int rowNumber, seatNumber;
+        while(true) {
+            System.out.println("Enter row number: ");
+            rowNumber = input.nextInt();
+            if(rowNumber<1 || rowNumber>3){
+                System.out.println("Invalid row number. Please enter a row number between 1-3");
+                continue;
+            }
+            System.out.println("Enter seat number: ");
+            seatNumber = input.nextInt();
+
+            if(rowNumber == 1) {
+                if(seatNumber >= 1 && seatNumber <=12) {
+                    if(row1[seatNumber-1] == 1) {
+                        row1[seatNumber-1] = 0;
+                        System.out.printf("You successfully cancelled the ticket for seat number %d in row %d.\n",seatNumber,rowNumber);
+                    } else {
+                        System.out.println("The seat is not yet reserved!");
+                    }
+                    break;
+                } else {
+                    System.out.println("Invalid seat number. Please enter a seat number between 1-12");
+                }
+            } else if(rowNumber == 2) {
+                if(seatNumber >= 1 && seatNumber <=16) {
+                    if(row2[seatNumber-1] == 1) {
+                        row2[seatNumber-1] = 0;
+                        System.out.printf("You successfully cancelled the ticket for seat number %d in row %d.\n",seatNumber,rowNumber);
+                    } else {
+                        System.out.println("The seat is not yet reserved!");
+                    }
+                    break;
+                } else {
+                    System.out.println("Invalid seat number. Please enter a seat number between 1-16");
+                }
             } else {
-                System.out.print("O");
+                if(seatNumber >= 1 && seatNumber <=20) {
+                    if(row3[seatNumber-1] == 1) {
+                        row3[seatNumber-1] = 0;
+                        System.out.printf("You successfully cancelled the ticket for seat number %d in row %d.\n",seatNumber,rowNumber);
+                    } else {
+                        System.out.println("The seat is not yet reserved!");
+                    }
+                    break;
+                } else {
+                    System.out.println("Invalid seat number. Please enter a seat number between 1-20");
+                }
+            }
+        }
+    }
+    private static void show_available(int[] row1, int[] row2, int[] row3) {
+        System.out.print("\nSeats available in Row 1: ");
+        for(int i=0; i<row1.length; i++) {
+            if(row1[i] == 0){
+                System.out.print((i+1)+"  ");
+            }
+        }
+        System.out.print("\nSeats available in Row 2: ");
+        for(int i=0; i<row2.length; i++) {
+            if(row2[i] == 0){
+                System.out.print((i+1)+"  ");
+            }
+        }
+        System.out.print("\nSeats available in Row 3: ");
+        for(int i=0; i<row3.length; i++) {
+            if(row3[i] == 0){
+                System.out.print((i+1)+"  ");
             }
         }
         System.out.println();
