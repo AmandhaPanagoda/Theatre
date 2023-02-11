@@ -20,16 +20,20 @@ public class Theatre {
 
         Scanner input = new Scanner(System.in);
         int menuOption;
-        do {
-            System.out.println("1) Buy a ticket\n\t2) Print seating area\n\t3) Cancel ticket\n\t4) List available seats\n\t5) Save to file\n\t6) Load from file\n\t7) Print ticket information and total price\n\t8) Sort tickets by price\n\t\t0) Quit");
-            System.out.println("Enter option:");
-            menuOption = input.nextInt();
-
+        //add a nice first impression.
+        System.out.println("\t1) Buy a ticket\n\t2) Print seating area\n\t3) Cancel ticket\n\t4) List available seats\n\t5) Save to file\n\t6) Load from file\n\t7) Print ticket information and total price\n\t8) Sort tickets by price\n\t\t0) Quit");
+        System.out.println("Enter option:");
+        menuOption = input.nextInt();
+        while(menuOption != 0) {
             switch (menuOption) {
                 case 1:
                     //buy_ticket method
                     buy_ticket(row1, row2, row3);
+                    break;
                 case 2:
+                    //print_seating_area method
+                    print_seating_area(row1, row2, row3);
+                    break;
                 case 3:
                 case 4:
                 case 5:
@@ -39,54 +43,101 @@ public class Theatre {
                 default:
                     System.out.println("Invalid Option");
             }
-        } while (menuOption != 0);
-        System.out.println("Option 0 entered. Exiting program...");
+            System.out.println("\t1) Buy a ticket\n\t2) Print seating area\n\t3) Cancel ticket\n\t4) List available seats\n\t5) Save to file\n\t6) Load from file\n\t7) Print ticket information and total price\n\t8) Sort tickets by price\n\t\t0) Quit");
+            System.out.println("Enter option:");
+            menuOption = input.nextInt();
+        }
+        if(menuOption == 0) {
+            System.out.println("Option 0 entered. Exiting program...");
+        }
     }
 
     private static void buy_ticket(int[] row1, int[] row2, int[] row3) {
         //option number 1
         Scanner input = new Scanner(System.in);
         int rowNumber, seatNumber;
-        System.out.println("Enter row number: ");
-        rowNumber = input.nextInt();
-        System.out.println("Enter seat number: ");
-        seatNumber = input.nextInt();
+        while(true) {
+            System.out.println("Enter row number: ");
+            rowNumber = input.nextInt();
+            if(rowNumber<1 || rowNumber>3){
+                System.out.println("Invalid row number. Please enter a row number between 1-3");
+                continue;
+            }
+            System.out.println("Enter seat number: "); // ask for seat even when row wrong then say invalid
+            seatNumber = input.nextInt();
 
-        if(rowNumber == 1) {
-            if(seatNumber >= 1 && seatNumber <=12) {
-                if(row1[seatNumber-1] == 0) {
-                    row1[seatNumber-1] = 1;
-                    System.out.println("Ticket purchase successful!");
+            if(rowNumber == 1) {
+                if(seatNumber >= 1 && seatNumber <=12) {
+                    if(row1[seatNumber-1] == 0) {
+                        row1[seatNumber-1] = 1;
+                        System.out.println("Ticket purchase successful!");
+                    } else {
+                        System.out.println("Seat already occupied!");
+                    }
+                    break;
                 } else {
-                    System.out.println("Seat already occupied!");
+                    System.out.println("Invalid seat number. Please enter a seat number between 1-12");
                 }
-            } else {
-                System.out.println("Invalid seat number. Please enter a seat number between 1-12");
-            }
-        } else if(rowNumber == 2) {
-            if(seatNumber >= 1 && seatNumber <=16) {
-                if(row2[seatNumber-1] == 0) {
-                    row2[seatNumber-1] = 1;
-                    System.out.println("Ticket purchase successful!");
+            } else if(rowNumber == 2) {
+                if(seatNumber >= 1 && seatNumber <=16) {
+                    if(row2[seatNumber-1] == 0) {
+                        row2[seatNumber-1] = 1;
+                        System.out.println("Ticket purchase successful!");
+                    } else {
+                        System.out.println("Seat already occupied!");
+                    }
+                    break;
                 } else {
-                    System.out.println("Seat already occupied!");
+                    System.out.println("Invalid seat number. Please enter a seat number between 1-16");
                 }
-            } else {
-                System.out.println("Invalid seat number. Please enter a seat number between 1-16");
-            }
-        } else if(rowNumber == 3) {
-            if(seatNumber >= 1 && seatNumber <=20) {
-                if(row3[seatNumber-1] == 0) {
-                    row3[seatNumber-1] = 1;
-                    System.out.println("Ticket purchase successful!");
+            } else if(rowNumber == 3) {
+                if(seatNumber >= 1 && seatNumber <=20) {
+                    if(row3[seatNumber-1] == 0) {
+                        row3[seatNumber-1] = 1;
+                        System.out.println("Ticket purchase successful!");
+                    } else {
+                        System.out.println("Seat already occupied!");
+                    }
+                    break;
                 } else {
-                    System.out.println("Seat already occupied!");
+                    System.out.println("Invalid seat number. Please enter a seat number between 1-20");
                 }
-            } else {
-                System.out.println("Invalid seat number. Please enter a seat number between 1-20");
             }
-        } else {
-            System.out.println("Invalid row number. Please enter a row number between 1-3");
         }
+    }
+    private static void print_seating_area(int[] row1, int[] row2, int[] row3) {
+        for(int n=0; n < row1.length; n++){
+            if(n==6){
+                System.out.print("  ");
+            }
+            if(row1[n]==1){
+                System.out.print("X");
+            } else {
+                System.out.print("O");
+            }
+        }
+        System.out.println();
+        for(int n=0; n < row2.length; n++){
+            if(n==8){
+                System.out.print("  ");
+            }
+            if(row2[n]==1){
+                System.out.print("X");
+            } else {
+                System.out.print("O");
+            }
+        }
+        System.out.println();
+        for(int n=0; n < row3.length; n++){
+            if(n==10){
+                System.out.print("  ");
+            }
+            if(row3[n]==1){
+                System.out.print("X");
+            } else {
+                System.out.print("O");
+            }
+        }
+        System.out.println();
     }
 }
