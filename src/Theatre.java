@@ -6,7 +6,8 @@ public class Theatre {
     static int[] row2 = new int[16];
     static int[] row3 = new int[20];
     public static void main(String[] args) {
-        System.out.println("Welcome to the New Theatre");
+        System.out.println("-------------------------------------------------------");
+        System.out.println("Welcome to the New Theatre!\n");
 
         for(int i=0; i<12; i++) {
             row1[i] = 0;
@@ -17,50 +18,58 @@ public class Theatre {
         for(int i=0; i<20; i++) {
             row3[i] = 0;
         }
-
-        Scanner input = new Scanner(System.in);
-        int menuOption;
-        //add a nice first impression.
-        System.out.println("\t1) Buy a ticket\n\t2) Print seating area\n\t3) Cancel ticket\n\t4) List available seats\n\t5) Save to file\n\t6) Load from file\n\t7) Print ticket information and total price\n\t8) Sort tickets by price\n\t\t0) Quit");
-        System.out.println("Enter option:");
-        menuOption = input.nextInt();
-        while(menuOption != 0) {
-            switch (menuOption) {
-                case 1:
-                    //buy_ticket method
-                    buy_ticket();
-                    break;
-                case 2:
-                    //print_seating_area method
-                    print_seating_area();
-                    break;
-                case 3:
-                    //cancel_ticket method
-                    cancel_ticket();
-                    break;
-                case 4:
-                    //show_available method
-                    show_available();
-                    break;
-                case 5:
-                    //save method ->saves seat allocation details
-                    save();
-                    break;
-                case 6:
-                    load();
-                    break;
-                case 7:
-                case 8:
-                default:
-                    System.out.println("Invalid Option");
+        while(true) {
+            try {
+                Scanner input = new Scanner(System.in);
+                int menuOption;
+                //add a nice first impression.
+                System.out.println("\t1) Buy a ticket\n\t2) Print seating area\n\t3) Cancel ticket\n\t4) List available seats\n\t5) Save to file\n\t6) Load from file\n\t7) Print ticket information and total price\n\t8) Sort tickets by price\n\t\t0) Quit");
+                System.out.println("Enter option:");
+                menuOption = input.nextInt();
+                System.out.println("-------------------------------------------------------");
+                while(menuOption != 0) {
+                    switch (menuOption) {
+                        case 1:
+                            //buy_ticket method
+                            buy_ticket();
+                            break;
+                        case 2:
+                            //print_seating_area method
+                            print_seating_area();
+                            break;
+                        case 3:
+                            //cancel_ticket method
+                            cancel_ticket();
+                            break;
+                        case 4:
+                            //show_available method
+                            show_available();
+                            break;
+                        case 5:
+                            //save method ->saves seat allocation details
+                            save();
+                            break;
+                        case 6:
+                            load();
+                            break;
+                        case 7:
+                        case 8:
+                        default:
+                            System.out.println("Invalid Option. Please choose an option from 0-8");
+                    }
+                    System.out.println("-------------------------------------------------------");
+                    System.out.println("\t1) Buy a ticket\n\t2) Print seating area\n\t3) Cancel ticket\n\t4) List available seats\n\t5) Save to file\n\t6) Load from file\n\t7) Print ticket information and total price\n\t8) Sort tickets by price\n\t\t0) Quit");
+                    System.out.println("Enter option:");
+                    menuOption = input.nextInt();
+                    System.out.println("-------------------------------------------------------");
+                }
+                System.out.println("Option 0 entered. Exiting program...");
+                break;
+            } catch(InputMismatchException e) {
+                System.out.println("Invalid Input. Please enter a number!");
             }
-            System.out.println("\t1) Buy a ticket\n\t2) Print seating area\n\t3) Cancel ticket\n\t4) List available seats\n\t5) Save to file\n\t6) Load from file\n\t7) Print ticket information and total price\n\t8) Sort tickets by price\n\t\t0) Quit");
-            System.out.println("Enter option:");
-            menuOption = input.nextInt();
         }
-        System.out.println("Option 0 entered. Exiting program...");
     }
-
     private static void buy_ticket() {
         Scanner input = new Scanner(System.in);
         int rowNumber, seatNumber;
@@ -114,8 +123,8 @@ public class Theatre {
         }
     }
     private static void print_seating_area() {
-        System.out.println("       *********\n       * STAGE *\n       *********");
-        System.out.print("    ");
+        System.out.println("            *********\n            * STAGE *\n            *********");
+        System.out.print("         ");
         for(int n=0; n < row1.length; n++){
             if(n==6){
                 System.out.print("  ");
@@ -123,7 +132,7 @@ public class Theatre {
             System.out.print(row1[n]==1 ? "X" : "O");
         }
         System.out.println();
-        System.out.print("  ");
+        System.out.print("       ");
         for(int n=0; n < row2.length; n++){
             if(n==8){
                 System.out.print("  ");
@@ -131,6 +140,7 @@ public class Theatre {
             System.out.print(row2[n]==1 ? "X" : "O");
         }
         System.out.println();
+        System.out.print("     ");
         for(int n=0; n < row3.length; n++){
             if(n==10){
                 System.out.print("  ");
@@ -138,6 +148,7 @@ public class Theatre {
             System.out.print(row3[n]==1 ? "X" : "O");
         }
         System.out.println();
+        System.out.println("\nX - occupied\tO - unoccupied");
     }
     private static void cancel_ticket() {
         Scanner input = new Scanner(System.in);
@@ -243,9 +254,9 @@ public class Theatre {
             String row2String = br.readLine();
             String row3String = br.readLine();
 
-            String row1Array[] = row1String.split(",");
-            String row2Array[] = row2String.split(",");
-            String row3Array[] = row3String.split(",");
+            String[] row1Array = row1String.split(",");
+            String[] row2Array = row2String.split(",");
+            String[] row3Array = row3String.split(",");
 
             for (int i = 0; i < row1Array.length; i++) {
                 row1[i] = Integer.parseInt(row1Array[i]);
@@ -259,7 +270,7 @@ public class Theatre {
 
             br.close();
             fis.close();
-            System.out.println("Successfully updated seat information from file!");
+            System.out.println("Successfully updated seat information from the file!");
         } catch (IOException e) {
             System.out.println("Error reading file: " + e.getMessage());
         }

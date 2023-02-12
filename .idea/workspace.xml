@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="63af77ed-233d-4dc4-a5be-d24e1d8d20ef" name="Changes" comment="Implemented the show available method">
+    <list default="true" id="63af77ed-233d-4dc4-a5be-d24e1d8d20ef" name="Changes" comment="Implemented file handeling methods">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seatingData.txt" beforeDir="false" afterPath="$PROJECT_DIR$/seatingData.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Theatre.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Theatre.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -94,7 +95,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676137131518</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Implemented file handeling methods">
+      <created>1676179276127</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1676179276127</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -115,7 +123,8 @@
     <MESSAGE value="Added task of printing seating area" />
     <MESSAGE value="edited task of printing seating area" />
     <MESSAGE value="Implemented the show available method" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implemented the show available method" />
+    <MESSAGE value="Implemented file handeling methods" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented file handeling methods" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
