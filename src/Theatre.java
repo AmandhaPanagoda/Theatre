@@ -53,6 +53,8 @@ public class Theatre {
                             load();
                             break;
                         case 7:
+                            Person person1 = new Person(); //only test remove from here
+                            break;
                         case 8:
                         default:
                             System.out.println("Invalid Option. Please choose an option from 0-8");
