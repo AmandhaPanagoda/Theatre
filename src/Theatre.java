@@ -1,12 +1,12 @@
+import java.io.*;
 import java.util.*;
 
 public class Theatre {
+    static int[] row1 = new int[12];
+    static int[] row2 = new int[16];
+    static int[] row3 = new int[20];
     public static void main(String[] args) {
         System.out.println("Welcome to the New Theatre");
-
-        int[] row1 = new int[12];
-        int[] row2 = new int[16];
-        int[] row3 = new int[20];
 
         for(int i=0; i<12; i++) {
             row1[i] = 0;
@@ -28,22 +28,27 @@ public class Theatre {
             switch (menuOption) {
                 case 1:
                     //buy_ticket method
-                    buy_ticket(row1, row2, row3);
+                    buy_ticket();
                     break;
                 case 2:
                     //print_seating_area method
-                    print_seating_area(row1, row2, row3);
+                    print_seating_area();
                     break;
                 case 3:
                     //cancel_ticket method
-                    cancel_ticket(row1, row2, row3);
+                    cancel_ticket();
                     break;
                 case 4:
                     //show_available method
-                    show_available(row1, row2, row3);
+                    show_available();
                     break;
                 case 5:
+                    //save method ->saves seat allocation details
+                    save();
+                    break;
                 case 6:
+                    load();
+                    break;
                 case 7:
                 case 8:
                 default:
@@ -56,7 +61,7 @@ public class Theatre {
         System.out.println("Option 0 entered. Exiting program...");
     }
 
-    private static void buy_ticket(int[] row1, int[] row2, int[] row3) {
+    private static void buy_ticket() {
         Scanner input = new Scanner(System.in);
         int rowNumber, seatNumber;
         while(true) {
@@ -108,7 +113,7 @@ public class Theatre {
             }
         }
     }
-    private static void print_seating_area(int[] row1, int[] row2, int[] row3) {
+    private static void print_seating_area() {
         System.out.println("       *********\n       * STAGE *\n       *********");
         System.out.print("    ");
         for(int n=0; n < row1.length; n++){
@@ -134,7 +139,7 @@ public class Theatre {
         }
         System.out.println();
     }
-    private static void cancel_ticket(int[] row1, int[] row2, int[] row3) {
+    private static void cancel_ticket() {
         Scanner input = new Scanner(System.in);
         int rowNumber, seatNumber;
         while(true) {
@@ -186,7 +191,7 @@ public class Theatre {
             }
         }
     }
-    private static void show_available(int[] row1, int[] row2, int[] row3) {
+    private static void show_available() {
         System.out.print("\nSeats available in Row 1: ");
         for(int i=0; i<row1.length; i++) {
             if(row1[i] == 0){
@@ -207,4 +212,57 @@ public class Theatre {
         }
         System.out.println();
     }
-}
+    private static void save() {
+        //reference -> https://www.tutorialspoint.com/How-to-store-the-contents-of-arrays-in-a-file-using-Java
+        try {
+            FileWriter fw = new FileWriter("seatingData.txt");
+            PrintWriter pw = new PrintWriter(fw);
+
+            for (int j : row1) {
+                pw.println(j);
+            }
+            for (int j : row2) {
+                pw.println(j);
+            }
+            for (int j : row3) {
+                pw.println(j);
+            }
+            pw.close();
+            System.out.println("Successfully saved the seat information in seatingData.txt file");
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("An unexpected error occurred! "+e.getMessage());
+        }
+    }
+    private static void load() {
+        try {
+            FileInputStream fis = new FileInputStream("seatingData.txt");
+            BufferedReader br = new BufferedReader(new InputStreamReader(fis));
+
+            String row1String = br.readLine();
+            String row2String = br.readLine();
+            String row3String = br.readLine();
+
+            String row1Array[] = row1String.split(",");
+            String row2Array[] = row2String.split(",");
+            String row3Array[] = row3String.split(",");
+
+            for (int i = 0; i < row1Array.length; i++) {
+                row1[i] = Integer.parseInt(row1Array[i]);
+            }
+            for (int i = 0; i < row2Array.length; i++) {
+                row2[i] = Integer.parseInt(row2Array[i]);
+            }
+            for (int i = 0; i < row3Array.length; i++) {
+                row3[i] = Integer.parseInt(row3Array[i]);
+            }
+
+            br.close();
+            fis.close();
+            System.out.println("Successfully updated seat information from file!");
+        } catch (IOException e) {
+            System.out.println("Error reading file: " + e.getMessage());
+        }
+    }
+    }
+
