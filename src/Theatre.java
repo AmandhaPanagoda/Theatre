@@ -1,13 +1,13 @@
 import java.io.*;
 import java.util.*;
-
+//can the person only buy one ticket?
 public class Theatre {
     static int[] row1 = new int[12];
     static int[] row2 = new int[16];
     static int[] row3 = new int[20];
     public static void main(String[] args) {
         System.out.println("-------------------------------------------------------");
-        System.out.println("Welcome to the New Theatre!\n");
+        print_border("W E L C O M E   T  O   T H E   N E W   T H E A T R E !");
 
         for(int i=0; i<12; i++) {
             row1[i] = 0;
@@ -31,18 +31,22 @@ public class Theatre {
                     switch (menuOption) {
                         case 1:
                             //buy_ticket method
+                            print_border("Buy Ticket");
                             buy_ticket();
                             break;
                         case 2:
                             //print_seating_area method
+                            print_border("Seating Areas and Stage");
                             print_seating_area();
                             break;
                         case 3:
                             //cancel_ticket method
+                            print_border("Cancel Ticket");
                             cancel_ticket();
                             break;
                         case 4:
                             //show_available method
+                            print_border("Available Seats");
                             show_available();
                             break;
                         case 5:
@@ -53,9 +57,12 @@ public class Theatre {
                             load();
                             break;
                         case 7:
-                            Person person1 = new Person(); //only test remove from here
+                            Person person = new Person(); //only test remove from here
+                            Ticket ticket = new Ticket(1, 2, 100.0, person);
+                            ticket.print();
                             break;
                         case 8:
+
                         default:
                             System.out.println("Invalid Option. Please choose an option from 0-8");
                     }
@@ -71,6 +78,31 @@ public class Theatre {
                 System.out.println("Invalid Input. Please enter a number!");
             }
         }
+    }
+    private static void print_border(String text){
+        char horizontal = '\u2500';
+        char top_left_corner ='\u250C';
+        char top_right_corner = '\u2510';
+        char vertical = '\u2502';
+        char bottom_right_corner ='\u2518';
+        char bottom_left_corner = '\u2514';
+
+
+        int horizontal_length = text.length() + 10;
+        System.out.print(top_left_corner);
+        for(int i=0; i<horizontal_length; i++){
+            System.out.print(horizontal);
+        }
+        System.out.print(top_right_corner);
+        System.out.println();
+        System.out.println(vertical+"     "+text+"     "+vertical);
+
+        System.out.print(bottom_left_corner);
+        for(int i=0; i<horizontal_length; i++){
+            System.out.print(horizontal);
+        }
+        System.out.print(bottom_right_corner);
+        System.out.println();
     }
     private static void buy_ticket() {
         Scanner input = new Scanner(System.in);

@@ -7,13 +7,13 @@ public class Person {
         Scanner input = new Scanner(System.in);
         while(true) {
             System.out.print("Enter your first name: ");
-            this.firstName = input.nextLine().toLowerCase();
+            this.firstName = input.nextLine().toUpperCase();
 
             System.out.print("Enter your surname: ");
-            this.surname = input.nextLine().toLowerCase();
+            this.surname = input.nextLine().toUpperCase();
 
             //reference on using RegEx & matches() -> https://www.javatpoint.com/java-regex
-            if(!surname.matches( "[a-z]*" ) || !firstName.matches("[a-z]*")){
+            if(!surname.matches( "[a-zA-Z]*" ) || !firstName.matches("[a-zA-Z]*")){
                 System.out.println("Name should only contain letters.\nEnter your first name and surname in the relevant field.\n");
             } else {
                 break;
