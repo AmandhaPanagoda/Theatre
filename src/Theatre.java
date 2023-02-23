@@ -1,10 +1,11 @@
 import java.io.*;
 import java.util.*;
-//can the person only buy one ticket?
+
 public class Theatre {
     static int[] row1 = new int[12];
     static int[] row2 = new int[16];
     static int[] row3 = new int[20];
+    static ArrayList<Ticket> ticketList = new ArrayList<>();
     public static void main(String[] args) {
         System.out.println("-------------------------------------------------------");
         print_border("W E L C O M E   T  O   T H E   N E W   T H E A T R E !");
@@ -18,6 +19,7 @@ public class Theatre {
         for(int i=0; i<20; i++) {
             row3[i] = 0;
         }
+
         while(true) {
             try {
                 Scanner input = new Scanner(System.in);
@@ -26,7 +28,7 @@ public class Theatre {
                 System.out.println("\t1) Buy a ticket\n\t2) Print seating area\n\t3) Cancel ticket\n\t4) List available seats\n\t5) Save to file\n\t6) Load from file\n\t7) Print ticket information and total price\n\t8) Sort tickets by price\n\t\t0) Quit");
                 System.out.println("Enter option:");
                 menuOption = input.nextInt();
-                System.out.println("-------------------------------------------------------");
+                System.out.println("----------------------------------------------------------------------------------------------");
                 while(menuOption != 0) {
                     switch (menuOption) {
                         case 1:
@@ -50,42 +52,40 @@ public class Theatre {
                             show_available();
                             break;
                         case 5:
-                            //save method ->saves seat allocation details
+                            //save method -> saves seat allocation details
                             save();
                             break;
                         case 6:
                             load();
                             break;
                         case 7:
-                            Person person = new Person(); //only test remove from here
-                            Ticket ticket = new Ticket(1, 2, 100.0, person);
-                            ticket.print();
+                            show_tickets_info();
                             break;
                         case 8:
 
                         default:
                             System.out.println("Invalid Option. Please choose an option from 0-8");
                     }
-                    System.out.println("-------------------------------------------------------");
+                    System.out.println("----------------------------------------------------------------------------------------------");
                     System.out.println("\t1) Buy a ticket\n\t2) Print seating area\n\t3) Cancel ticket\n\t4) List available seats\n\t5) Save to file\n\t6) Load from file\n\t7) Print ticket information and total price\n\t8) Sort tickets by price\n\t\t0) Quit");
                     System.out.println("Enter option:");
                     menuOption = input.nextInt();
-                    System.out.println("-------------------------------------------------------");
+                    System.out.println("----------------------------------------------------------------------------------------------");
                 }
                 System.out.println("Option 0 entered. Exiting program...");
                 break;
             } catch(InputMismatchException e) {
-                System.out.println("Invalid Input. Please enter a number!");
+                System.out.println("Invalid Input. Please enter a number!"); //buy method wrong input comes here
             }
         }
     }
-    private static void print_border(String text){
-        char horizontal = '\u2500';
-        char top_left_corner ='\u250C';
-        char top_right_corner = '\u2510';
-        char vertical = '\u2502';
-        char bottom_right_corner ='\u2518';
-        char bottom_left_corner = '\u2514';
+    private static void print_border(String text) {
+        char horizontal = '─';
+        char top_left_corner ='┌';
+        char top_right_corner = '┐';
+        char vertical = '│';
+        char bottom_right_corner ='┘';
+        char bottom_left_corner = '└';
 
 
         int horizontal_length = text.length() + 10;
@@ -104,57 +104,104 @@ public class Theatre {
         System.out.print(bottom_right_corner);
         System.out.println();
     }
-    private static void buy_ticket() {
+    private static void buy_ticket() { //3 while loops. pls optimize
         Scanner input = new Scanner(System.in);
         int rowNumber, seatNumber;
-        while(true) {
-            System.out.println("Enter row number: ");
-            rowNumber = input.nextInt();
-            if(rowNumber<1 || rowNumber>3){
-                System.out.println("Invalid row number. Please enter a row number between 1-3");
-                continue;
-            }
-            System.out.println("Enter seat number: ");
-            seatNumber = input.nextInt();
+        String firstName,surname,email;
+        double ticketPrice;
 
-            if(rowNumber == 1) {
-                if(seatNumber >= 1 && seatNumber <=12) {
-                    if(row1[seatNumber-1] == 0) {
-                        row1[seatNumber-1] = 1;
-                        System.out.println("Ticket purchase successful!");
-                    } else {
-                        System.out.println("Seat already occupied!");
-                    }
-                    break;
-                } else {
-                    System.out.println("Invalid seat number. Please enter a seat number between 1-12");
-                }
-            } else if(rowNumber == 2) {
-                if(seatNumber >= 1 && seatNumber <=16) {
-                    if(row2[seatNumber-1] == 0) {
-                        row2[seatNumber-1] = 1;
-                        System.out.println("Ticket purchase successful!");
-                    } else {
-                        System.out.println("Seat already occupied!");
-                    }
-                    break;
-                } else {
-                    System.out.println("Invalid seat number. Please enter a seat number between 1-16");
-                }
+        while(true) {
+            System.out.print("Enter your first name: ");
+            firstName = input.nextLine().toUpperCase();
+
+            System.out.print("Enter your surname: ");
+            surname = input.nextLine().toUpperCase();
+
+            //reference on using RegEx & matches() -> https://www.javatpoint.com/java-regex
+            if(!surname.matches( "[a-zA-Z]*" ) || !firstName.matches("[a-zA-Z]*")){
+                System.out.println("Name should only contain letters.\nEnter your first name and surname in the relevant field.\n");
             } else {
-                if(seatNumber >= 1 && seatNumber <=20) {
-                    if(row3[seatNumber-1] == 0) {
-                        row3[seatNumber-1] = 1;
-                        System.out.println("Ticket purchase successful!");
-                    } else {
-                        System.out.println("Seat already occupied!");
-                    }
-                    break;
-                } else {
-                    System.out.println("Invalid seat number. Please enter a seat number between 1-20");
-                }
+                break;
             }
         }
+        while(true) {
+            System.out.print("Enter your email: ");
+            email = input.nextLine();
+            if(!isValidEmailAddress(email)){
+                System.out.println("Invalid email address!\n");
+            } else {
+                break;
+            }
+        }
+        while(true) {
+            try {
+                System.out.print("Enter row number: ");
+                rowNumber = input.nextInt();
+                if(rowNumber<1 || rowNumber>3){
+                    System.out.println("Invalid row number. Please enter a row number between 1-3");
+                    continue;
+                }
+                System.out.print("Enter seat number: ");
+                seatNumber = input.nextInt();
+
+                if(rowNumber == 1) { //1st Row seats
+                    if(seatNumber >= 1 && seatNumber <=12) {
+                        ticketPrice = 10;
+                        if(row1[seatNumber-1] == 0) {
+                            row1[seatNumber-1] = 1;
+                            System.out.println("Ticket purchase successful!");
+                        } else {
+                            System.out.println("Seat already occupied!");
+                        }
+                        break;
+                    } else {
+                        System.out.println("Invalid seat number. Please enter a seat number between 1-12");
+                    }
+                } else if(rowNumber == 2) { //2nd Row seats
+                    if(seatNumber >= 1 && seatNumber <=16) {
+                        ticketPrice = 20;
+                        if(row2[seatNumber-1] == 0) {
+                            row2[seatNumber-1] = 1;
+                            System.out.println("Ticket purchase successful!");
+                        } else {
+                            System.out.println("Seat already occupied!");
+                        }
+                        break;
+                    } else {
+                        System.out.println("Invalid seat number. Please enter a seat number between 1-16");
+                    }
+                } else { //3rd Row seats
+                    ticketPrice = 30;
+                    if(seatNumber >= 1 && seatNumber <=20) {
+                        if(row3[seatNumber-1] == 0) {
+                            row3[seatNumber-1] = 1;
+                            System.out.println("Ticket purchase successful!");
+                        } else {
+                            System.out.println("Seat already occupied!");
+                        }
+                        break;
+                    } else {
+                        System.out.println("Invalid seat number. Please enter a seat number between 1-20");
+                    }
+                }
+            } catch(InputMismatchException e) {
+                System.out.println("Please enter a number!");
+                System.out.println();
+                input.nextLine();
+            }
+        }
+
+        Person person = new Person(firstName, surname, email);
+        Ticket ticket = new Ticket(rowNumber, seatNumber, ticketPrice, person);
+        ticketList.add(ticket);
+
+    }
+    private static boolean isValidEmailAddress(String email) {
+        //reference -> https://stackoverflow.com/questions/624581/what-is-the-best-java-email-address-validation-method
+        String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
+        java.util.regex.Matcher m = p.matcher(email);
+        return m.matches();
     }
     private static void print_seating_area() {
         System.out.println("            *********\n            * STAGE *\n            *********");
@@ -187,6 +234,8 @@ public class Theatre {
     private static void cancel_ticket() {
         Scanner input = new Scanner(System.in);
         int rowNumber, seatNumber;
+        boolean cancelledTicket = false;
+
         while(true) {
             System.out.println("Enter row number: ");
             rowNumber = input.nextInt();
@@ -201,6 +250,7 @@ public class Theatre {
                 if(seatNumber >= 1 && seatNumber <=12) {
                     if(row1[seatNumber-1] == 1) {
                         row1[seatNumber-1] = 0;
+                        cancelledTicket = true;
                         System.out.printf("You successfully cancelled the ticket for seat number %d in row %d.\n",seatNumber,rowNumber);
                     } else {
                         System.out.println("The seat is not yet reserved!");
@@ -213,6 +263,7 @@ public class Theatre {
                 if(seatNumber >= 1 && seatNumber <=16) {
                     if(row2[seatNumber-1] == 1) {
                         row2[seatNumber-1] = 0;
+                        cancelledTicket = true;
                         System.out.printf("You successfully cancelled the ticket for seat number %d in row %d.\n",seatNumber,rowNumber);
                     } else {
                         System.out.println("The seat is not yet reserved!");
@@ -225,6 +276,7 @@ public class Theatre {
                 if(seatNumber >= 1 && seatNumber <=20) {
                     if(row3[seatNumber-1] == 1) {
                         row3[seatNumber-1] = 0;
+                        cancelledTicket = true;
                         System.out.printf("You successfully cancelled the ticket for seat number %d in row %d.\n",seatNumber,rowNumber);
                     } else {
                         System.out.println("The seat is not yet reserved!");
@@ -232,6 +284,15 @@ public class Theatre {
                     break;
                 } else {
                     System.out.println("Invalid seat number. Please enter a seat number between 1-20");
+                }
+            }
+        }
+
+        if(cancelledTicket) {
+            for (Ticket t : ticketList) {
+                if (t.getRow() == rowNumber && t.getSeat() == seatNumber) {
+                    ticketList.remove(t);
+                    break;
                 }
             }
         }
@@ -308,6 +369,16 @@ public class Theatre {
         } catch (IOException e) {
             System.out.println("Error reading file: " + e.getMessage());
         }
+    }
+
+    private static void show_tickets_info() {
+        double total = 0;
+        for (Ticket ticketInfo : ticketList) {
+            ticketInfo.print();
+            total += ticketInfo.getPrice();
+            System.out.println();
+        }
+        System.out.println("Total Price of all Tickets: £"+total);
     }
     }
 

@@ -1,7 +1,7 @@
 class Ticket {
-    int row, seat;
-    double price;
-    Person person;
+    private int row, seat;
+    private double price;
+    private Person person;
 
     public Ticket(int row, int seat, double price, Person person) {
         this.row = row;
@@ -10,13 +10,23 @@ class Ticket {
         this.person = person;
     }
 
+    public int getRow() {
+        return this.row;
+    }
+    public int getSeat() {
+        return this.seat;
+    }
+
+    public double getPrice() { return this.price; }
+
+
     public void print() {
-        System.out.println("Person name: " + person.getFirstName());
-        System.out.println("Person surname: " + person.getSurname());
-        System.out.println("Person email: " + person.getEmail());
-        System.out.println("Row: " + row);
-        System.out.println("Seat: " + seat);
-        System.out.println("Price: " + price);
+        System.out.println("First Name: " + person.getFirstName());
+        System.out.println("Last Name: " + person.getSurname());
+        System.out.println("Email: " + person.getEmail());
+        System.out.println("Row number: " + row);
+        System.out.println("Seat number: " + seat);
+        System.out.println("Ticket Price: £" + price);
     }
 }
 
