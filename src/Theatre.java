@@ -75,7 +75,7 @@ public class Theatre {
                 System.out.println("Option 0 entered. Exiting program...");
                 break;
             } catch(InputMismatchException e) {
-                System.out.println("Invalid Input. Please enter a number!"); //buy method wrong input comes here
+                System.out.println("Invalid Input. Please enter a number!"); 
             }
         }
     }
@@ -252,7 +252,7 @@ public class Theatre {
             System.out.println("Enter row number: ");
             rowNumber = input.nextInt();
             if(rowNumber<1 || rowNumber>3){
-                System.out.println("Invalid row number. Please enter a row number between 1-3");
+                System.out.println("Invalid row number. Please enter a row number between 1-3\n");
                 continue;
             }
             System.out.println("Enter seat number: ");
@@ -263,39 +263,30 @@ public class Theatre {
                     if(row1[seatNumber-1] == 1) {
                         row1[seatNumber-1] = 0;
                         cancelledTicket = true;
-                        System.out.printf("You successfully cancelled the ticket for seat number %d in row %d.\n",seatNumber,rowNumber);
-                    } else {
-                        System.out.println("The seat is not yet reserved!");
-                    }
+                    } 
                     break;
                 } else {
-                    System.out.println("Invalid seat number. Please enter a seat number between 1-12");
+                    System.out.println("Invalid seat number. Please enter a seat number between 1-12\n");
                 }
             } else if(rowNumber == 2) {
                 if(seatNumber >= 1 && seatNumber <=16) {
                     if(row2[seatNumber-1] == 1) {
                         row2[seatNumber-1] = 0;
                         cancelledTicket = true;
-                        System.out.printf("You successfully cancelled the ticket for seat number %d in row %d.\n",seatNumber,rowNumber);
-                    } else {
-                        System.out.println("The seat is not yet reserved!");
-                    }
+                    } 
                     break;
                 } else {
-                    System.out.println("Invalid seat number. Please enter a seat number between 1-16");
+                    System.out.println("Invalid seat number. Please enter a seat number between 1-16\n");
                 }
             } else {
                 if(seatNumber >= 1 && seatNumber <=20) {
                     if(row3[seatNumber-1] == 1) {
                         row3[seatNumber-1] = 0;
                         cancelledTicket = true;
-                        System.out.printf("You successfully cancelled the ticket for seat number %d in row %d.\n",seatNumber,rowNumber);
-                    } else {
-                        System.out.println("The seat is not yet reserved!");
-                    }
+                    } 
                     break;
                 } else {
-                    System.out.println("Invalid seat number. Please enter a seat number between 1-20");
+                    System.out.println("Invalid seat number. Please enter a seat number between 1-20\n");
                 }
             }
         }
@@ -307,6 +298,9 @@ public class Theatre {
                     break;
                 }
             }
+            System.out.printf("You successfully cancelled the ticket for seat number %d in row %d.\n",seatNumber,rowNumber);
+        } else {
+            System.out.println("The seat is not yet reserved!");
         }
     }
     private static void show_available() {
