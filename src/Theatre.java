@@ -104,41 +104,19 @@ public class Theatre {
         System.out.print(bottom_right_corner);
         System.out.println();
     }
-    private static void buy_ticket() { //3 while loops. pls optimize
+    private static void buy_ticket() { 
         Scanner input = new Scanner(System.in);
         int rowNumber, seatNumber;
         String firstName,surname,email;
         double ticketPrice;
+        boolean purchaseTicket = false;
 
-        while(true) {
-            System.out.print("Enter your first name: ");
-            firstName = input.nextLine().toUpperCase();
-
-            System.out.print("Enter your surname: ");
-            surname = input.nextLine().toUpperCase();
-
-            //reference on using RegEx & matches() -> https://www.javatpoint.com/java-regex
-            if(!surname.matches( "[a-zA-Z]*" ) || !firstName.matches("[a-zA-Z]*")){
-                System.out.println("Name should only contain letters.\nEnter your first name and surname in the relevant field.\n");
-            } else {
-                break;
-            }
-        }
-        while(true) {
-            System.out.print("Enter your email: ");
-            email = input.nextLine();
-            if(!isValidEmailAddress(email)){
-                System.out.println("Invalid email address!\n");
-            } else {
-                break;
-            }
-        }
         while(true) {
             try {
                 System.out.print("Enter row number: ");
                 rowNumber = input.nextInt();
                 if(rowNumber<1 || rowNumber>3){
-                    System.out.println("Invalid row number. Please enter a row number between 1-3");
+                    System.out.println("Invalid row number. Please select a row number from 1-3\n");            
                     continue;
                 }
                 System.out.print("Enter seat number: ");
@@ -149,39 +127,39 @@ public class Theatre {
                         ticketPrice = 10;
                         if(row1[seatNumber-1] == 0) {
                             row1[seatNumber-1] = 1;
-                            System.out.println("Ticket purchase successful!");
+                            purchaseTicket = true;
                         } else {
                             System.out.println("Seat already occupied!");
                         }
                         break;
                     } else {
-                        System.out.println("Invalid seat number. Please enter a seat number between 1-12");
+                        System.out.println("Invalid seat number. Please select a seat number from 1-12");
                     }
                 } else if(rowNumber == 2) { //2nd Row seats
                     if(seatNumber >= 1 && seatNumber <=16) {
                         ticketPrice = 20;
                         if(row2[seatNumber-1] == 0) {
                             row2[seatNumber-1] = 1;
-                            System.out.println("Ticket purchase successful!");
+                            purchaseTicket = true;
                         } else {
                             System.out.println("Seat already occupied!");
                         }
                         break;
                     } else {
-                        System.out.println("Invalid seat number. Please enter a seat number between 1-16");
+                        System.out.println("Invalid seat number. Please select a seat number from 1-16");
                     }
                 } else { //3rd Row seats
                     ticketPrice = 30;
                     if(seatNumber >= 1 && seatNumber <=20) {
                         if(row3[seatNumber-1] == 0) {
                             row3[seatNumber-1] = 1;
-                            System.out.println("Ticket purchase successful!");
+                            purchaseTicket = true;
                         } else {
                             System.out.println("Seat already occupied!");
                         }
                         break;
                     } else {
-                        System.out.println("Invalid seat number. Please enter a seat number between 1-20");
+                        System.out.println("Invalid seat number. Please select a seat number from 1-20");
                     }
                 }
             } catch(InputMismatchException e) {
@@ -191,10 +169,44 @@ public class Theatre {
             }
         }
 
-        Person person = new Person(firstName, surname, email);
-        Ticket ticket = new Ticket(rowNumber, seatNumber, ticketPrice, person);
-        ticketList.add(ticket);
+        if(purchaseTicket == true) {
+          System.out.println("Seat is available! Please enter the details to buy the ticket.\n");
+          input.nextLine();
+          while(true) {
+              System.out.print("First Name: ");
+              firstName = input.nextLine().toUpperCase();
 
+              if(!firstName.matches("[a-zA-Z]*")) {
+                System.out.println("Name should only contain letters.\n");
+                continue;
+              }
+              break;
+            }
+          while(true) {
+              System.out.print("Last Name: ");
+              surname = input.nextLine().toUpperCase();
+
+              if(!surname.matches("[a-zA-Z]*")) {
+                System.out.println("Name should only contain letters.\n");
+                continue;
+              }
+              break;
+            }
+          while(true) {
+              System.out.print("Email: ");
+              email = input.nextLine();
+              if(!isValidEmailAddress(email)) {
+                System.out.println("Invalid email address!\n");
+                continue;
+              }
+              break;
+            }
+          
+          System.out.println("\nTicket purchase successful!\nSeat number "+seatNumber+" in Row number "+rowNumber+" reserved!");
+          Person person = new Person(firstName, surname, email);
+          Ticket ticket = new Ticket(rowNumber, seatNumber, ticketPrice, person);
+          ticketList.add(ticket);
+        }
     }
     private static boolean isValidEmailAddress(String email) {
         //reference -> https://stackoverflow.com/questions/624581/what-is-the-best-java-email-address-validation-method
@@ -370,7 +382,6 @@ public class Theatre {
             System.out.println("Error reading file: " + e.getMessage());
         }
     }
-
     private static void show_tickets_info() {
         double total = 0;
         for (Ticket ticketInfo : ticketList) {
