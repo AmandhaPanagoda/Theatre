@@ -1,5 +1,3 @@
-import java.util.*;
-
 public class Person {
     private String firstName,surname,email;
 

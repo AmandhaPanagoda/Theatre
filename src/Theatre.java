@@ -7,7 +7,7 @@ public class Theatre {
     static int[] row3 = new int[20];
     static ArrayList<Ticket> ticketList = new ArrayList<>();
     public static void main(String[] args) {
-        System.out.println("-------------------------------------------------------");
+        System.out.println("----------------------------------------------------------------------------------------------");
         print_border("W E L C O M E   T  O   T H E   N E W   T H E A T R E !");
 
         for(int i=0; i<12; i++) {
@@ -62,7 +62,9 @@ public class Theatre {
                             show_tickets_info();
                             break;
                         case 8:
-
+                            Theatre theatre = new Theatre();
+                            theatre.sort_tickets();
+                            break;
                         default:
                             System.out.println("Invalid Option. Please choose an option from 0-8");
                     }
@@ -124,7 +126,6 @@ public class Theatre {
 
                 if(rowNumber == 1) { //1st Row seats
                     if(seatNumber >= 1 && seatNumber <=12) {
-                        ticketPrice = 10;
                         if(row1[seatNumber-1] == 0) {
                             row1[seatNumber-1] = 1;
                             purchaseTicket = true;
@@ -137,7 +138,6 @@ public class Theatre {
                     }
                 } else if(rowNumber == 2) { //2nd Row seats
                     if(seatNumber >= 1 && seatNumber <=16) {
-                        ticketPrice = 20;
                         if(row2[seatNumber-1] == 0) {
                             row2[seatNumber-1] = 1;
                             purchaseTicket = true;
@@ -149,7 +149,6 @@ public class Theatre {
                         System.out.println("Invalid seat number. Please select a seat number from 1-16");
                     }
                 } else { //3rd Row seats
-                    ticketPrice = 30;
                     if(seatNumber >= 1 && seatNumber <=20) {
                         if(row3[seatNumber-1] == 0) {
                             row3[seatNumber-1] = 1;
@@ -169,7 +168,7 @@ public class Theatre {
             }
         }
 
-        if(purchaseTicket == true) {
+        if(purchaseTicket) {
           System.out.println("Seat is available! Please enter the details to buy the ticket.\n");
           input.nextLine();
           while(true) {
@@ -201,6 +200,19 @@ public class Theatre {
               }
               break;
             }
+          //ask user for the ticket price (more than 10)
+          while(true) {
+              try {
+                  System.out.print("Enter ticket price (min £10): ");
+                  ticketPrice = input.nextDouble();
+                  if(ticketPrice < 10) {
+                      System.out.println("Minimum ticket price is £10");
+                  } else break;
+              } catch (InputMismatchException e) {
+                  System.out.println("Invalid Price! Please enter a number.\n");
+                  input.nextLine();
+              }
+            }
           
           System.out.println("\nTicket purchase successful!\nSeat number "+seatNumber+" in Row number "+rowNumber+" reserved!");
           Person person = new Person(firstName, surname, email);
@@ -210,7 +222,7 @@ public class Theatre {
     }
     private static boolean isValidEmailAddress(String email) {
         //reference -> https://stackoverflow.com/questions/624581/what-is-the-best-java-email-address-validation-method
-        String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+        String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
         java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
         java.util.regex.Matcher m = p.matcher(email);
         return m.matches();
@@ -383,7 +395,19 @@ public class Theatre {
             total += ticketInfo.getPrice();
             System.out.println();
         }
-        System.out.println("Total Price of all Tickets: £"+total);
+        System.out.printf("Total Price of all Tickets: £%.2f",total);
+        System.out.println();
     }
+    private void sort_tickets() {
+        List<Ticket> sortedTickets = new ArrayList<>(ticketList);
+        sortedTickets.sort(Comparator.comparingDouble(Ticket::getPrice));
+
+        for(Ticket ticket: sortedTickets) {
+            ticket.print();
+            System.out.println();
+        }
+
     }
+
+}
 
