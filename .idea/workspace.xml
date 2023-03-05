@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="63af77ed-233d-4dc4-a5be-d24e1d8d20ef" name="Changes" comment="Added show_tickets_info method. Fixed loop in buy tickets">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/seatingData.txt" beforeDir="false" afterPath="$PROJECT_DIR$/seatingData.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Person.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Person.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Theatre.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Theatre.java" afterDir="false" />
-    </list>
+    <list default="true" id="63af77ed-233d-4dc4-a5be-d24e1d8d20ef" name="Changes" comment="completed the tasks working project" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -133,7 +128,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677177317993</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="completed the tasks working project">
+      <created>1677920407109</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1677920407109</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -159,7 +161,8 @@
     <MESSAGE value="Added Person calss and minor adjustments" />
     <MESSAGE value="Added border method and minor adjustments on person class" />
     <MESSAGE value="Added show_tickets_info method. Fixed loop in buy tickets" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added show_tickets_info method. Fixed loop in buy tickets" />
+    <MESSAGE value="completed the tasks working project" />
+    <option name="LAST_COMMIT_MESSAGE" value="completed the tasks working project" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
