@@ -1,73 +1,46 @@
+/**
+ * The Theatre class represents a simple booking system for a theatre.
+ * It allows users to view available seats, book seats, save and load seating onformation, and display ticket information.
+ * The class contains methods for initializing the theatre's seating arrangement, displaying available seats,
+ * buying/cancelling tickets, saving and loading seating information to/from a file, and displaying ticket information sorted and unsorted.
+ *
+ * This class uses the following classes:
+ * @see Ticket
+ * @see Person
+ *
+ * @author Amandha Panagoda
+ * @version 1.0
+ * @since 10.02.2023
+ */
+
 import java.io.*;
 import java.util.*;
 
 public class Theatre {
-    static int[] row1 = new int[12];
-    static int[] row2 = new int[16];
-    static int[] row3 = new int[20];
-    static ArrayList<Ticket> ticketList = new ArrayList<>();
+    //3 arrays to store the seats
+    private static final int[] row1 = new int[12];
+    private static final int[] row2 = new int[16];
+    private static final int[] row3 = new int[20];
+
+    //Array List for storing ticket information
+    private static final ArrayList<Ticket> ticketList = new ArrayList<>();
+
     public static void main(String[] args) {
         System.out.println("----------------------------------------------------------------------------------------------");
         print_border("W E L C O M E   T  O   T H E   N E W   T H E A T R E !");
 
-        for(int i=0; i<12; i++) {
-            row1[i] = 0;
-        }
-        for(int i=0; i<16; i++) {
-            row2[i] = 0;
-        }
-        for(int i=0; i<20; i++) {
-            row3[i] = 0;
-        }
+        //set all seats as unoccupied
+        set_seats_unoccupied();
 
         while(true) {
             try {
                 Scanner input = new Scanner(System.in);
-                int menuOption;
-                //add a nice first impression.
                 System.out.println("\t1) Buy a ticket\n\t2) Print seating area\n\t3) Cancel ticket\n\t4) List available seats\n\t5) Save to file\n\t6) Load from file\n\t7) Print ticket information and total price\n\t8) Sort tickets by price\n\t\t0) Quit");
                 System.out.println("Enter option:");
-                menuOption = input.nextInt();
+                int menuOption = input.nextInt();
                 System.out.println("----------------------------------------------------------------------------------------------");
                 while(menuOption != 0) {
-                    switch (menuOption) {
-                        case 1:
-                            //buy_ticket method
-                            print_border("Buy Ticket");
-                            buy_ticket();
-                            break;
-                        case 2:
-                            //print_seating_area method
-                            print_border("Seating Areas and Stage");
-                            print_seating_area();
-                            break;
-                        case 3:
-                            //cancel_ticket method
-                            print_border("Cancel Ticket");
-                            cancel_ticket();
-                            break;
-                        case 4:
-                            //show_available method
-                            print_border("Available Seats");
-                            show_available();
-                            break;
-                        case 5:
-                            //save method -> saves seat allocation details
-                            save();
-                            break;
-                        case 6:
-                            load();
-                            break;
-                        case 7:
-                            show_tickets_info();
-                            break;
-                        case 8:
-                            Theatre theatre = new Theatre();
-                            theatre.sort_tickets();
-                            break;
-                        default:
-                            System.out.println("Invalid Option. Please choose an option from 0-8");
-                    }
+                    menu_options(menuOption);
                     System.out.println("----------------------------------------------------------------------------------------------");
                     System.out.println("\t1) Buy a ticket\n\t2) Print seating area\n\t3) Cancel ticket\n\t4) List available seats\n\t5) Save to file\n\t6) Load from file\n\t7) Print ticket information and total price\n\t8) Sort tickets by price\n\t\t0) Quit");
                     System.out.println("Enter option:");
@@ -81,6 +54,74 @@ public class Theatre {
             }
         }
     }
+
+    /**
+     * Sets all seats in all the rows as unoccupied.
+     * All the elements in three arrays row1,row,row3 are set to 0.
+     */
+    private static void set_seats_unoccupied() {
+        for(int i=0; i<12; i++) {
+            row1[i] = 0;
+        }
+        for(int i=0; i<16; i++) {
+            row2[i] = 0;
+        }
+        for(int i=0; i<20; i++) {
+            row3[i] = 0;
+        }
+    }
+
+    /**
+     * Displays menu options
+     * @param menuOption is the option tha user chooses from the menu
+     */
+    private static void menu_options(int menuOption) {
+        switch (menuOption) {
+            case 1:
+                //buy_ticket method
+                print_border("Buy Ticket");
+                buy_ticket();
+                break;
+            case 2:
+                //print_seating_area method
+                print_border("Seating Areas and Stage");
+                print_seating_area();
+                break;
+            case 3:
+                //cancel_ticket method
+                print_border("Cancel Ticket");
+                cancel_ticket();
+                break;
+            case 4:
+                //show_available method
+                print_border("Available Seats");
+                show_available();
+                break;
+            case 5:
+                //save method -> saves seat allocation details
+                save();
+                break;
+            case 6:
+                load();
+                break;
+            case 7:
+                print_border("Ticket Information");
+                show_tickets_info();
+                break;
+            case 8:
+                print_border("Sorted(price) Ticket Information");
+                Theatre theatre = new Theatre();
+                theatre.sort_tickets();
+                break;
+            default:
+                System.out.println("Invalid Option. Please choose an option from 0-8");
+        }
+    }
+
+    /**
+     * Create a border around the text that is passed.
+     * @param text the text that should have a border around it.
+     */
     private static void print_border(String text) {
         char horizontal = '─';
         char top_left_corner ='┌';
@@ -106,11 +147,17 @@ public class Theatre {
         System.out.print(bottom_right_corner);
         System.out.println();
     }
+
+    /**
+     * Allows a user to purchase a ticket for a theater by inputting a row number and seat number.
+     * If the selected seat is not already occupied, the seat will be reserved and the user will be notified.
+     * If an invalid row or seat number is entered, the user will be prompted to enter a valid number.
+     * @throws InputMismatchException if the user inputs a non-numeric value for the row or seat number
+     */
     private static void buy_ticket() { 
         Scanner input = new Scanner(System.in);
-        int rowNumber, seatNumber;
-        String firstName,surname,email;
-        double ticketPrice;
+        int rowNumber;
+        int seatNumber;
         boolean purchaseTicket = false;
 
         while(true) {
@@ -118,7 +165,7 @@ public class Theatre {
                 System.out.print("Enter row number: ");
                 rowNumber = input.nextInt();
                 if(rowNumber<1 || rowNumber>3){
-                    System.out.println("Invalid row number. Please select a row number from 1-3\n");            
+                    System.out.println("Invalid row number. Please select a row number from 1-3\n");
                     continue;
                 }
                 System.out.print("Enter seat number: ");
@@ -169,57 +216,77 @@ public class Theatre {
         }
 
         if(purchaseTicket) {
-          System.out.println("Seat is available! Please enter the details to buy the ticket.\n");
-          input.nextLine();
-          while(true) {
-              System.out.print("First Name: ");
-              firstName = input.nextLine().toUpperCase();
-
-              if(!firstName.matches("[a-zA-Z]*")) {
-                System.out.println("Name should only contain letters.\n");
-                continue;
-              }
-              break;
-            }
-          while(true) {
-              System.out.print("Last Name: ");
-              surname = input.nextLine().toUpperCase();
-
-              if(!surname.matches("[a-zA-Z]*")) {
-                System.out.println("Name should only contain letters.\n");
-                continue;
-              }
-              break;
-            }
-          while(true) {
-              System.out.print("Email: ");
-              email = input.nextLine();
-              if(!isValidEmailAddress(email)) {
-                System.out.println("Invalid email address!\n");
-                continue;
-              }
-              break;
-            }
-          //ask user for the ticket price (more than 10)
-          while(true) {
-              try {
-                  System.out.print("Enter ticket price (min £10): ");
-                  ticketPrice = input.nextDouble();
-                  if(ticketPrice < 10) {
-                      System.out.println("Minimum ticket price is £10");
-                  } else break;
-              } catch (InputMismatchException e) {
-                  System.out.println("Invalid Price! Please enter a number.\n");
-                  input.nextLine();
-              }
-            }
-          
-          System.out.println("\nTicket purchase successful!\nSeat number "+seatNumber+" in Row number "+rowNumber+" reserved!");
-          Person person = new Person(firstName, surname, email);
-          Ticket ticket = new Ticket(rowNumber, seatNumber, ticketPrice, person);
-          ticketList.add(ticket);
+            reserve_ticket(rowNumber,seatNumber);
         }
     }
+
+    /**
+     * Prompts the user to enter personal details and ticket price to reserve a ticket with the specified row and seat number.
+     * @param rowNumber the row number of the seat to be reserved
+     * @param seatNumber the seat number to be reserved
+     */
+    private static void reserve_ticket(int rowNumber,int seatNumber) {
+        String firstName;
+        String surname;
+        String email;
+        double ticketPrice;
+        Scanner input = new Scanner(System.in);
+        System.out.println("Seat is available! Please enter the details to buy the ticket.\n");
+
+        while(true) {
+            System.out.print("First Name: ");
+            firstName = input.nextLine().toUpperCase();
+
+            if(!firstName.matches("[a-zA-Z]*")) {
+                System.out.println("Name should only contain letters.\n");
+                continue;
+            }
+            break;
+        }
+        while(true) {
+            System.out.print("Last Name: ");
+            surname = input.nextLine().toUpperCase();
+
+            if(!surname.matches("[a-zA-Z]*")) {
+                System.out.println("Name should only contain letters.\n");
+                continue;
+            }
+            break;
+        }
+        while(true) {
+            System.out.print("Email: ");
+            email = input.nextLine();
+            if(!isValidEmailAddress(email)) {
+                System.out.println("Invalid email address!\n");
+                continue;
+            }
+            break;
+        }
+        //ask user for the ticket price (more than 10)
+        while(true) {
+            try {
+                System.out.print("Enter ticket price (min £10): ");
+                ticketPrice = input.nextDouble();
+                if(ticketPrice < 10) {
+                    System.out.println("Minimum ticket price is £10");
+                } else break;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid Price! Please enter a number.\n");
+                input.nextLine();
+            }
+        }
+
+        System.out.println("\nTicket purchase successful!\nSeat number "+seatNumber+" in Row number "+rowNumber+" reserved!");
+        Person person = new Person(firstName, surname, email);
+        Ticket ticket = new Ticket(rowNumber, seatNumber, ticketPrice, person);
+        ticketList.add(ticket);
+    }
+
+    /**
+     * Checks whether the given email address is valid or not.
+     * @param email the email address to be validated
+     * @return true if the email address is valid, false otherwise
+     */
     private static boolean isValidEmailAddress(String email) {
         //reference -> https://stackoverflow.com/questions/624581/what-is-the-best-java-email-address-validation-method
         String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
@@ -227,6 +294,12 @@ public class Theatre {
         java.util.regex.Matcher m = p.matcher(email);
         return m.matches();
     }
+
+    /**
+     * Prints a graphical representation of the seating area of the theatre
+     * Shows which seats are occupied and which seats are unoccupied.
+     * The occupied seats are represented by "X", while unoccupied seats are represented by "O".
+     */
     private static void print_seating_area() {
         System.out.println("            *********\n            * STAGE *\n            *********");
         System.out.print("         ");
@@ -255,6 +328,13 @@ public class Theatre {
         System.out.println();
         System.out.println("\nX - occupied\tO - unoccupied");
     }
+
+    /**
+     * Allows the user to cancel a ticket by selecting the row and seat number of the ticket to be cancelled.
+     * If the row and seat number are valid and correspond to an already reserved seat, the seat is marked as unoccupied
+     and removed from the ticketList. If the seat is not already reserved, an error message is displayed.
+     @throws InputMismatchException if the input is not an integer.
+     */
     private static void cancel_ticket() {
         Scanner input = new Scanner(System.in);
         int rowNumber, seatNumber;
@@ -263,7 +343,7 @@ public class Theatre {
         while(true) {
             System.out.println("Enter row number: ");
             rowNumber = input.nextInt();
-            if(rowNumber<1 || rowNumber>3){
+            if(rowNumber<1 || rowNumber>3) {
                 System.out.println("Invalid row number. Please enter a row number between 1-3\n");
                 continue;
             }
@@ -315,6 +395,10 @@ public class Theatre {
             System.out.println("The seat is not yet reserved!");
         }
     }
+
+    /**
+     * Displays the available seats in each row in a list like format
+     */
     private static void show_available() {
         System.out.print("\nSeats available in Row 1: ");
         for(int i=0; i<row1.length; i++) {
@@ -336,6 +420,12 @@ public class Theatre {
         }
         System.out.println();
     }
+
+    /**
+     * Saves the current seating arrangement to a file named "seatingData.txt".
+     * Uses a FileWriter and PrintWriter to write the contents of the row1, row2 and row3 arrays to the file.
+     * @throws IOException if an error occurs while writing to the file
+     */
     private static void save() {
         //reference -> https://www.tutorialspoint.com/How-to-store-the-contents-of-arrays-in-a-file-using-Java
         try {
@@ -358,6 +448,11 @@ public class Theatre {
             System.out.println("An unexpected error occurred! "+e.getMessage());
         }
     }
+
+    /**
+     * Loads the seat information from a file and updates the seating data.
+     * @throws IOException if there is an error reading the file
+     */
     private static void load() {
         try {
             FileInputStream fis = new FileInputStream("seatingData.txt");
@@ -388,6 +483,13 @@ public class Theatre {
             System.out.println("Error reading file: " + e.getMessage());
         }
     }
+
+    /**
+     * Displays information about all the purchased tickets and their total price
+     * The seat number, row number along with the person details are shown
+     * The method print the information of each ticket using the Ticket class's print() method.
+     * Unsorted
+     */
     private static void show_tickets_info() {
         double total = 0;
         for (Ticket ticketInfo : ticketList) {
@@ -398,6 +500,12 @@ public class Theatre {
         System.out.printf("Total Price of all Tickets: £%.2f",total);
         System.out.println();
     }
+
+    /**
+     * This method sorts the ticketList by ticket price in ascending order.
+     * It does not modify the original ticketList, instead it creates a new list called sortedTickets and sorts it.
+     * Prints the information of each ticket in the sorted order.
+     */
     private void sort_tickets() {
         List<Ticket> sortedTickets = new ArrayList<>(ticketList);
         sortedTickets.sort(Comparator.comparingDouble(Ticket::getPrice));
