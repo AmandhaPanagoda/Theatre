@@ -1,6 +1,6 @@
 /**
  * The Theatre class represents a simple booking system for a theatre.
- * It allows users to view available seats, book seats, save and load seating onformation, and display ticket information.
+ * It allows users to view available seats, book seats, save and load seating formation, and display ticket information.
  * The class contains methods for initializing the theatre's seating arrangement, displaying available seats,
  * buying/cancelling tickets, saving and loading seating information to/from a file, and displaying ticket information sorted and unsorted.
  *
@@ -102,6 +102,7 @@ public class Theatre {
                 save();
                 break;
             case 6:
+                //loads the saved seat details from the file
                 load();
                 break;
             case 7:
@@ -110,8 +111,7 @@ public class Theatre {
                 break;
             case 8:
                 print_border("Sorted(price) Ticket Information");
-                Theatre theatre = new Theatre();
-                theatre.sort_tickets();
+                sort_tickets(ticketList);
                 break;
             default:
                 System.out.println("Invalid Option. Please choose an option from 0-8");
@@ -503,19 +503,39 @@ public class Theatre {
 
     /**
      * This method sorts the ticketList by ticket price in ascending order.
-     * It does not modify the original ticketList, instead it creates a new list called sortedTickets and sorts it.
      * Prints the information of each ticket in the sorted order.
+     * @param ticketList the list of tickets to sort
      */
-    private void sort_tickets() {
-        List<Ticket> sortedTickets = new ArrayList<>(ticketList);
-        sortedTickets.sort(Comparator.comparingDouble(Ticket::getPrice));
-
-        for(Ticket ticket: sortedTickets) {
+    private static void sort_tickets(List<Ticket> ticketList) {
+        for (int i = 0; i < ticketList.size() - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < ticketList.size(); j++) {
+                if (ticketList.get(j).getPrice() < ticketList.get(minIndex).getPrice()) {
+                    minIndex = j;
+                }
+            }
+            if (minIndex != i) {
+                swap(ticketList, i, minIndex);
+            }
+        }
+        for(Ticket ticket: ticketList) {
             ticket.print();
             System.out.println();
         }
-
     }
+
+    /**
+     * Swaps two elements in a list.
+     * @param list the list to swap elements in
+     * @param i the index of the first element to swap
+     * @param j the index of the second element to swap
+     */
+    private static void swap(List<Ticket> ticketList, int i, int j) {
+        Ticket temp = ticketList.get(i);
+        ticketList.set(i, ticketList.get(j));
+        ticketList.set(j, temp);
+    }
+
 
 }
 
