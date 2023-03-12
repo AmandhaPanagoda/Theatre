@@ -28,31 +28,24 @@ public class Theatre {
     public static void main(String[] args) {
         System.out.println("----------------------------------------------------------------------------------------------");
         print_border("W E L C O M E   T  O   T H E   N E W   T H E A T R E !");
+        set_seats_unoccupied(); //sets all seats to unoccupied
+        Scanner input = new Scanner(System.in);
+        int menuOption = -1;
 
-        //set all seats as unoccupied
-        set_seats_unoccupied();
-
-        while(true) {
+        while(menuOption != 0) {
             try {
-                Scanner input = new Scanner(System.in);
                 System.out.println("\t1) Buy a ticket\n\t2) Print seating area\n\t3) Cancel ticket\n\t4) List available seats\n\t5) Save to file\n\t6) Load from file\n\t7) Print ticket information and total price\n\t8) Sort tickets by price\n\t\t0) Quit");
                 System.out.println("Enter option:");
-                int menuOption = input.nextInt();
+                menuOption = input.nextInt();
                 System.out.println("----------------------------------------------------------------------------------------------");
-                while(menuOption != 0) {
-                    menu_options(menuOption);
-                    System.out.println("----------------------------------------------------------------------------------------------");
-                    System.out.println("\t1) Buy a ticket\n\t2) Print seating area\n\t3) Cancel ticket\n\t4) List available seats\n\t5) Save to file\n\t6) Load from file\n\t7) Print ticket information and total price\n\t8) Sort tickets by price\n\t\t0) Quit");
-                    System.out.println("Enter option:");
-                    menuOption = input.nextInt();
-                    System.out.println("----------------------------------------------------------------------------------------------");
-                }
-                System.out.println("Option 0 entered. Exiting program...");
-                break;
+                menu_options(menuOption);
+                System.out.println("----------------------------------------------------------------------------------------------");
             } catch(InputMismatchException e) {
-                System.out.println("Invalid Input. Please enter a number!"); 
+                System.out.println("Invalid Input. Please enter a number!");
+                input.nextLine(); // consume the invalid input to avoid an infinite loop
             }
         }
+        System.out.println("Option 0 entered. Exiting program...");
     }
 
     /**
@@ -121,15 +114,16 @@ public class Theatre {
     /**
      * Create a border around the text that is passed.
      * @param text the text that should have a border around it.
+     * reference -> <a href="https://herongyang.com/Unicode/Block-U2500-Box-Drawing.html">Unicodes</a>
      */
     private static void print_border(String text) {
+        //copied from box unicodes
         char horizontal = '─';
         char top_left_corner ='┌';
         char top_right_corner = '┐';
         char vertical = '│';
         char bottom_right_corner ='┘';
         char bottom_left_corner = '└';
-
 
         int horizontal_length = text.length() + 10;
         System.out.print(top_left_corner);
@@ -163,16 +157,16 @@ public class Theatre {
         while(true) {
             try {
                 System.out.print("Enter row number: ");
-                rowNumber = input.nextInt();
-                if(rowNumber<1 || rowNumber>3){
+                rowNumber = input.nextInt(); //get the row number
+                if(rowNumber < 1 || rowNumber > 3){
                     System.out.println("Invalid row number. Please select a row number from 1-3\n");
                     continue;
                 }
                 System.out.print("Enter seat number: ");
-                seatNumber = input.nextInt();
+                seatNumber = input.nextInt(); //get seat number
 
                 if(rowNumber == 1) { //1st Row seats
-                    if(seatNumber >= 1 && seatNumber <=12) {
+                    if(seatNumber >= 1 && seatNumber <= 12) {
                         if(row1[seatNumber-1] == 0) {
                             row1[seatNumber-1] = 1;
                             purchaseTicket = true;
@@ -184,7 +178,7 @@ public class Theatre {
                         System.out.println("Invalid seat number. Please select a seat number from 1-12");
                     }
                 } else if(rowNumber == 2) { //2nd Row seats
-                    if(seatNumber >= 1 && seatNumber <=16) {
+                    if(seatNumber >= 1 && seatNumber <= 16) {
                         if(row2[seatNumber-1] == 0) {
                             row2[seatNumber-1] = 1;
                             purchaseTicket = true;
@@ -196,7 +190,7 @@ public class Theatre {
                         System.out.println("Invalid seat number. Please select a seat number from 1-16");
                     }
                 } else { //3rd Row seats
-                    if(seatNumber >= 1 && seatNumber <=20) {
+                    if(seatNumber >= 1 && seatNumber <= 20) {
                         if(row3[seatNumber-1] == 0) {
                             row3[seatNumber-1] = 1;
                             purchaseTicket = true;
@@ -214,9 +208,8 @@ public class Theatre {
                 input.nextLine();
             }
         }
-
         if(purchaseTicket) {
-            reserve_ticket(rowNumber,seatNumber);
+            reserve_ticket(rowNumber,seatNumber); //buy the ticket after entering personal information
         }
     }
 
@@ -226,60 +219,59 @@ public class Theatre {
      * @param seatNumber the seat number to be reserved
      */
     private static void reserve_ticket(int rowNumber,int seatNumber) {
-        String firstName;
-        String surname;
-        String email;
-        double ticketPrice;
         Scanner input = new Scanner(System.in);
         System.out.println("Seat is available! Please enter the details to buy the ticket.\n");
-
-        while(true) {
-            System.out.print("First Name: ");
-            firstName = input.nextLine().toUpperCase();
-
-            if(!firstName.matches("[a-zA-Z]*")) {
-                System.out.println("Name should only contain letters.\n");
-                continue;
-            }
-            break;
-        }
-        while(true) {
-            System.out.print("Last Name: ");
-            surname = input.nextLine().toUpperCase();
-
-            if(!surname.matches("[a-zA-Z]*")) {
-                System.out.println("Name should only contain letters.\n");
-                continue;
-            }
-            break;
-        }
-        while(true) {
-            System.out.print("Email: ");
-            email = input.nextLine();
-            if(!isValidEmailAddress(email)) {
-                System.out.println("Invalid email address!\n");
-                continue;
-            }
-            break;
-        }
-        //ask user for the ticket price (more than 10)
-        while(true) {
-            try {
-                System.out.print("Enter ticket price (min £10): ");
-                ticketPrice = input.nextDouble();
-                if(ticketPrice < 10) {
-                    System.out.println("Minimum ticket price is £10");
-                } else break;
-            } catch (InputMismatchException e) {
-                System.out.println("Invalid Price! Please enter a number.\n");
-                input.nextLine();
-            }
-        }
+        String firstName = readName("First Name", input);
+        String surname = readName("Last Name", input);
+        String email = readEmail(input);
+        double ticketPrice = readTicketPrice(input);
 
         System.out.println("\nTicket purchase successful!\nSeat number "+seatNumber+" in Row number "+rowNumber+" reserved!");
         Person person = new Person(firstName, surname, email);
         Ticket ticket = new Ticket(rowNumber, seatNumber, ticketPrice, person);
         ticketList.add(ticket);
+    }
+
+    private static String readName(String nameType, Scanner input) {
+        while(true) {
+            System.out.print(nameType + ": ");
+            String name = input.nextLine().toUpperCase();
+
+            if(!name.matches("[a-zA-Z]*")) {
+                System.out.println("Name should only contain letters.\n");
+                continue;
+            }
+            return name;
+        }
+    }
+
+    private static String readEmail(Scanner input) {
+        while(true) {
+            System.out.print("Email: ");
+            String email = input.nextLine();
+            if(!isValidEmailAddress(email)) {
+                System.out.println("Invalid email address!\n");
+                continue;
+            }
+            return email;
+        }
+    }
+
+    private static double readTicketPrice(Scanner input) {
+        while(true) {
+            try {
+                System.out.print("Enter ticket price (min £10): ");
+                double ticketPrice = input.nextDouble();
+                if(ticketPrice < 10) {
+                    System.out.println("Minimum ticket price is £10");
+                } else {
+                    return ticketPrice;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid Price! Please enter a number.\n");
+                input.nextLine();
+            }
+        }
     }
 
     /**
@@ -425,9 +417,9 @@ public class Theatre {
      * Saves the current seating arrangement to a file named "seatingData.txt".
      * Uses a FileWriter and PrintWriter to write the contents of the row1, row2 and row3 arrays to the file.
      * @throws IOException if an error occurs while writing to the file
+     * reference -> <a href="https://www.tutorialspoint.com/How-to-store-the-contents-of-arrays-in-a-file-using-Java">File Handling</a>
      */
     private static void save() {
-        //reference -> https://www.tutorialspoint.com/How-to-store-the-contents-of-arrays-in-a-file-using-Java
         try {
             FileWriter fw = new FileWriter("seatingData.txt");
             PrintWriter pw = new PrintWriter(fw);
@@ -526,7 +518,7 @@ public class Theatre {
 
     /**
      * Swaps two elements in a list.
-     * @param list the list to swap elements in
+     * @param ticketList the list to swap elements in
      * @param i the index of the first element to swap
      * @param j the index of the second element to swap
      */
@@ -535,7 +527,5 @@ public class Theatre {
         ticketList.set(i, ticketList.get(j));
         ticketList.set(j, temp);
     }
-
-
 }
 
