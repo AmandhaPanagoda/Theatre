@@ -34,9 +34,19 @@ public class Theatre {
 
         while(menuOption != 0) {
             try {
-                System.out.println("\t1) Buy a ticket\n\t2) Print seating area\n\t3) Cancel ticket\n\t4) List available seats\n\t5) Save to file\n\t6) Load from file\n\t7) Print ticket information and total price\n\t8) Sort tickets by price\n\t\t0) Quit");
+                print_border("M E N U");
+                System.out.println("\t1) Buy a ticket\n" +
+                        "\t2) Print seating area\n" +
+                        "\t3) Cancel ticket\n" +
+                        "\t4) List available seats\n" +
+                        "\t5) Save to file\n" +
+                        "\t6) Load from file\n" +
+                        "\t7) Print ticket information and total price\n" +
+                        "\t8) Sort tickets by price\n" +
+                        "\t\t0) Quit");
                 System.out.println("Enter option:");
                 menuOption = input.nextInt();
+                if(menuOption == 0) break;
                 System.out.println("----------------------------------------------------------------------------------------------");
                 menu_options(menuOption);
                 System.out.println("----------------------------------------------------------------------------------------------");
@@ -71,40 +81,34 @@ public class Theatre {
     private static void menu_options(int menuOption) {
         switch (menuOption) {
             case 1:
-                //buy_ticket method
-                print_border("Buy Ticket");
+                print_border("Buy Ticket"); //buy_ticket method
                 buy_ticket();
                 break;
             case 2:
-                //print_seating_area method
-                print_border("Seating Areas and Stage");
+                print_border("Seating Areas and Stage"); //print_seating_area method
                 print_seating_area();
                 break;
             case 3:
-                //cancel_ticket method
-                print_border("Cancel Ticket");
+                print_border("Cancel Ticket"); //cancel_ticket method
                 cancel_ticket();
                 break;
             case 4:
-                //show_available method
-                print_border("Available Seats");
+                print_border("Available Seats");  //show_available method
                 show_available();
                 break;
             case 5:
-                //save method -> saves seat allocation details
-                save();
+                save(); //save method -> saves seat allocation details
                 break;
             case 6:
-                //loads the saved seat details from the file
-                load();
+                load(); //loads the saved seat details from the file
                 break;
             case 7:
-                print_border("Ticket Information");
+                print_border("Ticket Information"); //prints the ticket information unsorted
                 show_tickets_info();
                 break;
             case 8:
-                print_border("Sorted(price) Ticket Information");
-                sort_tickets(ticketList);
+                print_border("Sorted(price) Ticket Information"); // prints the ticket information sorted
+                sort_tickets();
                 break;
             default:
                 System.out.println("Invalid Option. Please choose an option from 0-8");
@@ -117,7 +121,7 @@ public class Theatre {
      * reference -> <a href="https://herongyang.com/Unicode/Block-U2500-Box-Drawing.html">Unicodes</a>
      */
     private static void print_border(String text) {
-        //copied from box unicodes
+        // characters are copied from box unicodes
         char horizontal = '─';
         char top_left_corner ='┌';
         char top_right_corner = '┐';
@@ -146,7 +150,7 @@ public class Theatre {
      * Allows a user to purchase a ticket for a theater by inputting a row number and seat number.
      * If the selected seat is not already occupied, the seat will be reserved and the user will be notified.
      * If an invalid row or seat number is entered, the user will be prompted to enter a valid number.
-     * @throws InputMismatchException if the user inputs a non-numeric value for the row or seat number
+     * catches InputMismatchException if the user inputs a non-numeric value for the row or seat number
      */
     private static void buy_ticket() { 
         Scanner input = new Scanner(System.in);
@@ -170,8 +174,6 @@ public class Theatre {
                         if(row1[seatNumber-1] == 0) {
                             row1[seatNumber-1] = 1;
                             purchaseTicket = true;
-                        } else {
-                            System.out.println("Seat already occupied!");
                         }
                         break;
                     } else {
@@ -182,8 +184,6 @@ public class Theatre {
                         if(row2[seatNumber-1] == 0) {
                             row2[seatNumber-1] = 1;
                             purchaseTicket = true;
-                        } else {
-                            System.out.println("Seat already occupied!");
                         }
                         break;
                     } else {
@@ -194,8 +194,6 @@ public class Theatre {
                         if(row3[seatNumber-1] == 0) {
                             row3[seatNumber-1] = 1;
                             purchaseTicket = true;
-                        } else {
-                            System.out.println("Seat already occupied!");
                         }
                         break;
                     } else {
@@ -208,8 +206,10 @@ public class Theatre {
                 input.nextLine();
             }
         }
-        if(purchaseTicket) {
+        if(purchaseTicket) { //if the seat is available purchaseTicket is true
             reserve_ticket(rowNumber,seatNumber); //buy the ticket after entering personal information
+        } else {
+            System.out.println("Seat already occupied!");
         }
     }
 
@@ -232,6 +232,12 @@ public class Theatre {
         ticketList.add(ticket);
     }
 
+    /**
+     * Reads the name of a person (both first and last)
+     * @param nameType the type of name being read, such as "firstname" or "surname"
+     * @param input the Scanner object used to read input
+     * @return the name entered by the user, converted to uppercase
+     */
     private static String readName(String nameType, Scanner input) {
         while(true) {
             System.out.print(nameType + ": ");
@@ -245,6 +251,11 @@ public class Theatre {
         }
     }
 
+    /**
+     * Reads an email address from the console input and validates its format.
+     * @param input the Scanner object used to read input
+     * @return the email address entered by the user
+     */
     private static String readEmail(Scanner input) {
         while(true) {
             System.out.print("Email: ");
@@ -257,6 +268,12 @@ public class Theatre {
         }
     }
 
+    /**
+     * Reads the price of a ticket from the user and ensures it is at least £10.
+     * @param input the Scanner object used to read input
+     * @return the price of the ticket
+     * catches InputMismatchException if the user enters a non-numeric value
+     */
     private static double readTicketPrice(Scanner input) {
         while(true) {
             try {
@@ -325,7 +342,7 @@ public class Theatre {
      * Allows the user to cancel a ticket by selecting the row and seat number of the ticket to be cancelled.
      * If the row and seat number are valid and correspond to an already reserved seat, the seat is marked as unoccupied
      and removed from the ticketList. If the seat is not already reserved, an error message is displayed.
-     @throws InputMismatchException if the input is not an integer.
+     *catches InputMismatchException if the input is not an integer.
      */
     private static void cancel_ticket() {
         Scanner input = new Scanner(System.in);
@@ -416,7 +433,7 @@ public class Theatre {
     /**
      * Saves the current seating arrangement to a file named "seatingData.txt".
      * Uses a FileWriter and PrintWriter to write the contents of the row1, row2 and row3 arrays to the file.
-     * @throws IOException if an error occurs while writing to the file
+     * catches IOException if an error occurs while writing to the file
      * reference -> <a href="https://www.tutorialspoint.com/How-to-store-the-contents-of-arrays-in-a-file-using-Java">File Handling</a>
      */
     private static void save() {
@@ -443,7 +460,7 @@ public class Theatre {
 
     /**
      * Loads the seat information from a file and updates the seating data.
-     * @throws IOException if there is an error reading the file
+     * catches IOException if there is an error reading the file
      */
     private static void load() {
         try {
@@ -496,21 +513,22 @@ public class Theatre {
     /**
      * This method sorts the ticketList by ticket price in ascending order.
      * Prints the information of each ticket in the sorted order.
-     * @param ticketList the list of tickets to sort
      */
-    private static void sort_tickets(List<Ticket> ticketList) {
-        for (int i = 0; i < ticketList.size() - 1; i++) {
+    private static void sort_tickets() {
+        // Selection Sort is used to sort the array list
+        List<Ticket> sortedTicketList = new ArrayList<>(Theatre.ticketList);
+        for (int i = 0; i < sortedTicketList.size() - 1; i++) {
             int minIndex = i;
-            for (int j = i + 1; j < ticketList.size(); j++) {
-                if (ticketList.get(j).getPrice() < ticketList.get(minIndex).getPrice()) {
+            for (int j = i + 1; j < sortedTicketList.size(); j++) {
+                if (sortedTicketList.get(j).getPrice() < sortedTicketList.get(minIndex).getPrice()) {
                     minIndex = j;
                 }
             }
             if (minIndex != i) {
-                swap(ticketList, i, minIndex);
+                swap(sortedTicketList, i, minIndex);
             }
         }
-        for(Ticket ticket: ticketList) {
+        for(Ticket ticket: sortedTicketList) {
             ticket.print();
             System.out.println();
         }
@@ -518,14 +536,14 @@ public class Theatre {
 
     /**
      * Swaps two elements in a list.
-     * @param ticketList the list to swap elements in
+     * @param sortedTicketList the list containing the elements to swap
      * @param i the index of the first element to swap
      * @param j the index of the second element to swap
      */
-    private static void swap(List<Ticket> ticketList, int i, int j) {
-        Ticket temp = ticketList.get(i);
-        ticketList.set(i, ticketList.get(j));
-        ticketList.set(j, temp);
+    private static void swap(List<Ticket> sortedTicketList, int i, int j) {
+        Ticket temp = sortedTicketList.get(i);
+        sortedTicketList.set(i, sortedTicketList.get(j));
+        sortedTicketList.set(j, temp);
     }
 }
 
