@@ -35,15 +35,16 @@ public class Theatre {
         while(menuOption != 0) {
             try {
                 print_border("M E N U");
-                System.out.println("\t1) Buy a ticket\n" +
-                        "\t2) Print seating area\n" +
-                        "\t3) Cancel ticket\n" +
-                        "\t4) List available seats\n" +
-                        "\t5) Save to file\n" +
-                        "\t6) Load from file\n" +
-                        "\t7) Print ticket information and total price\n" +
-                        "\t8) Sort tickets by price\n" +
-                        "\t\t0) Quit");
+                System.out.println("""
+                        \t1) Buy a ticket
+                        \t2) Print seating area
+                        \t3) Cancel ticket
+                        \t4) List available seats
+                        \t5) Save to file
+                        \t6) Load from file
+                        \t7) Print ticket information and total price
+                        \t8) Sort tickets by price
+                        \t\t0) Quit"""); //menu text block
                 System.out.println("Enter option:");
                 menuOption = input.nextInt();
                 if(menuOption == 0) break;
@@ -107,7 +108,7 @@ public class Theatre {
                 show_tickets_info();
                 break;
             case 8:
-                print_border("Sorted(price) Ticket Information"); // prints the ticket information sorted
+                print_border("Sorted(by price) Ticket Information"); // prints the ticket information sorted
                 sort_tickets();
                 break;
             default:
@@ -207,29 +208,20 @@ public class Theatre {
             }
         }
         if(purchaseTicket) { //if the seat is available purchaseTicket is true
-            reserve_ticket(rowNumber,seatNumber); //buy the ticket after entering personal information
+            System.out.println("Seat is available! Please enter the details to buy the ticket.\n");
+            input.nextLine();
+            String firstName = readName("First Name", input);
+            String surname = readName("Last Name", input);
+            String email = readEmail(input);
+            double ticketPrice = readTicketPrice(input);
+
+            System.out.println("\nTicket purchase successful!\nSeat number "+seatNumber+" in Row number "+rowNumber+" is reserved!");
+            Person person = new Person(firstName, surname, email); // create a person
+            Ticket ticket = new Ticket(rowNumber, seatNumber, ticketPrice, person); //create a ticket
+            ticketList.add(ticket); //saves the ticket info in array list
         } else {
             System.out.println("Seat already occupied!");
         }
-    }
-
-    /**
-     * Prompts the user to enter personal details and ticket price to reserve a ticket with the specified row and seat number.
-     * @param rowNumber the row number of the seat to be reserved
-     * @param seatNumber the seat number to be reserved
-     */
-    private static void reserve_ticket(int rowNumber,int seatNumber) {
-        Scanner input = new Scanner(System.in);
-        System.out.println("Seat is available! Please enter the details to buy the ticket.\n");
-        String firstName = readName("First Name", input);
-        String surname = readName("Last Name", input);
-        String email = readEmail(input);
-        double ticketPrice = readTicketPrice(input);
-
-        System.out.println("\nTicket purchase successful!\nSeat number "+seatNumber+" in Row number "+rowNumber+" reserved!");
-        Person person = new Person(firstName, surname, email);
-        Ticket ticket = new Ticket(rowNumber, seatNumber, ticketPrice, person);
-        ticketList.add(ticket);
     }
 
     /**
