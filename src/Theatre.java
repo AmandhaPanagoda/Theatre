@@ -53,7 +53,7 @@ public class Theatre {
                 System.out.println("----------------------------------------------------------------------------------------------");
             } catch(InputMismatchException e) {
                 System.out.println("Invalid Input. Please enter a number!");
-                input.nextLine(); // consume the invalid input to avoid an infinite loop
+                input.nextLine(); // consumes the line to avoid an infinite loop
             }
         }
         System.out.println("Option 0 entered. Exiting program...");
@@ -65,13 +65,13 @@ public class Theatre {
      */
     private static void set_seats_unoccupied() {
         for(int i=0; i<12; i++) {
-            row1[i] = 0;
+            row1[i] = 0; //set row 1 seats to unoccupied
         }
         for(int i=0; i<16; i++) {
-            row2[i] = 0;
+            row2[i] = 0; //set row 2 seats to unoccupied
         }
         for(int i=0; i<20; i++) {
-            row3[i] = 0;
+            row3[i] = 0; //set row 3 seats to unoccupied
         }
     }
 
@@ -98,7 +98,7 @@ public class Theatre {
                 show_available();
                 break;
             case 5:
-                save(); //save method -> saves seat allocation details
+                save(); // saves seat allocation details (only arrays)
                 break;
             case 6:
                 load(); //loads the saved seat details from the file
@@ -216,6 +216,7 @@ public class Theatre {
             double ticketPrice = readTicketPrice(input);
 
             System.out.println("\nTicket purchase successful!\nSeat number "+seatNumber+" in Row number "+rowNumber+" is reserved!");
+
             Person person = new Person(firstName, surname, email); // create a person
             Ticket ticket = new Ticket(rowNumber, seatNumber, ticketPrice, person); //create a ticket
             ticketList.add(ticket); //saves the ticket info in array list
@@ -271,7 +272,7 @@ public class Theatre {
             try {
                 System.out.print("Enter ticket price (min £10): ");
                 double ticketPrice = input.nextDouble();
-                if(ticketPrice < 10) {
+                if(ticketPrice < 10) { // the minimum price is set to avoid any buyer biases
                     System.out.println("Minimum ticket price is £10");
                 } else {
                     return ticketPrice;
@@ -401,6 +402,7 @@ public class Theatre {
      * Displays the available seats in each row in a list like format
      */
     private static void show_available() {
+        //loops through all the arrays and prints the available seats
         System.out.print("\nSeats available in Row 1: ");
         for(int i=0; i<row1.length; i++) {
             if(row1[i] == 0){
@@ -434,18 +436,19 @@ public class Theatre {
             PrintWriter pw = new PrintWriter(fw);
 
             for (int j : row1) {
-                pw.println(j);
+                pw.print(j);
             }
+            pw.println();
             for (int j : row2) {
-                pw.println(j);
+                pw.print(j);
             }
+            pw.println();
             for (int j : row3) {
-                pw.println(j);
+                pw.print(j);
             }
             pw.close();
             System.out.println("Successfully saved the seat information in seatingData.txt file");
         } catch (IOException e) {
-            e.printStackTrace();
             System.out.println("An unexpected error occurred! "+e.getMessage());
         }
     }
@@ -463,18 +466,14 @@ public class Theatre {
             String row2String = br.readLine();
             String row3String = br.readLine();
 
-            String[] row1Array = row1String.split(",");
-            String[] row2Array = row2String.split(",");
-            String[] row3Array = row3String.split(",");
-
-            for (int i = 0; i < row1Array.length; i++) {
-                row1[i] = Integer.parseInt(row1Array[i]);
+            for (int i = 0; i < row1String.length(); i++) {
+                row1[i] = Integer.parseInt(String.valueOf(row1String.charAt(i)));
             }
-            for (int i = 0; i < row2Array.length; i++) {
-                row2[i] = Integer.parseInt(row2Array[i]);
+            for (int i = 0; i < row2String.length(); i++) {
+                row2[i] = Integer.parseInt(String.valueOf(row2String.charAt(i)));
             }
-            for (int i = 0; i < row3Array.length; i++) {
-                row3[i] = Integer.parseInt(row3Array[i]);
+            for (int i = 0; i < row3String.length(); i++) {
+                row3[i] = Integer.parseInt(String.valueOf(row3String.charAt(i)));
             }
 
             br.close();
