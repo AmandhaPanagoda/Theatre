@@ -527,7 +527,7 @@ public class Theatre {
 
     /**
      * Swaps two elements in a list.
-     * @param sortedTicketList the list containing the elements to swap
+     * @param sortedTicketList the list with sorted tickets
      * @param i the index of the first element to swap
      * @param j the index of the second element to swap
      */
