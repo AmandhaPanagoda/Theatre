@@ -18,12 +18,12 @@ import java.util.*;
 
 public class Theatre {
     //3 arrays to store the seats
-    private static final int[] row1 = new int[12];
-    private static final int[] row2 = new int[16];
-    private static final int[] row3 = new int[20];
+    private static int[] row1 = new int[12];
+    private static int[] row2 = new int[16];
+    private static int[] row3 = new int[20];
 
     //Array List for storing ticket information
-    private static final ArrayList<Ticket> ticketList = new ArrayList<>();
+    private static ArrayList<Ticket> ticketList = new ArrayList<>();
 
     public static void main(String[] args) {
         System.out.println("----------------------------------------------------------------------------------------------");
