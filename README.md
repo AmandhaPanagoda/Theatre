@@ -17,10 +17,5 @@
 	<p>To run the application, open a terminal or command prompt and navigate to the directory containing the application files. Then, run the following command:</p>
 	<code>java Theatre</code>
 	<p>This will start the application and display the main menu. From here, you can choose which action you want to perform.</p>
-	<h2>Contributing</h2>
-	<p>If you find any bugs or issues with the application, feel free to open an issue on the GitHub repository: https://github.com/AmandhaPanagoda/Theatre</p>
-	<p>If you would like to contribute to the development of the application, you can fork the repository and submit a pull request with your changes.</p>
-	<h2>Credits</h2>
-	<p>This application was developed by Amandha Panagoda for the Software Development 2 module at the University of Westminster.</p>
 </body>
 </html>
